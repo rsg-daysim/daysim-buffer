@@ -62,6 +62,7 @@ namespace DSBuffTool
             public const int MAXINTSECS = 699999;
             public const int MAXSTOPS = 39999;
             public const int MAXPARKS = 1999999;
+            public const double MINSQFT = 1.0;
 
             public const int NDIRECTIONS = 8;
             public const int NDISTBANDS = 3;

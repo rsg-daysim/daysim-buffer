@@ -18,7 +18,7 @@ namespace DSBuffTool
         public Logger(string fileName)
         {
             LogFileName = fileName;
-            using (StreamWriter logWriter = new StreamWriter(LogFileName, true))
+            using (StreamWriter logWriter = new StreamWriter(LogFileName, false))
             {
                 logWriter.Write("{0}: {1}", "INFO", "DaySim Buffering Tool Log Started");
                 logWriter.WriteLine(": {0} @ {1}", DateTime.Now.ToLongDateString(), DateTime.Now.ToLongTimeString());

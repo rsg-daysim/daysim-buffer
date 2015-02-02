@@ -635,7 +635,7 @@ namespace DSBuffTool
                         for (k = 1; k <= Constants.SIZECONSTS.NPARKTYPES; k++, j++) parksp_p[k, i] = Convert.ToDouble(row[j]);
                         for (k = 1; k <= Constants.SIZECONSTS.NPARKTYPES; k++, j++) parkpr_p[k, i] = Convert.ToDouble(row[j]);
                         //adjustments - min parcel size
-                        if (sqft_p[i] < 100.0) sqft_p[i] = 100.0;
+                        if (sqft_p[i] < Constants.SIZECONSTS.MINSQFT) sqft_p[i] = Constants.SIZECONSTS.MINSQFT;
                     }
                     nparcels = i;
                     Console.WriteLine("Read {0} records", i);
@@ -1029,6 +1029,12 @@ namespace DSBuffTool
                     }
                 }
 
+                //Update parking prices as averages
+                for (n = 1; n <= nnodes; n++)
+                {
+                    for (k = 1; k <= Constants.SIZECONSTS.NPARKTYPES; k++) parkpr_n[k, n] = parkpr_n[k, n] / (parksp_n[k, n] + 0.000000001);
+                }
+
                 for (i = 1; i <= nintsecs; i++)
                 {
                     if (i % 10000 == 0) Console.WriteLine("Processed {0} intersection records", i);
@@ -1059,10 +1065,10 @@ namespace DSBuffTool
                         extnodeWriter.Write(totallu_n[n] + Constants.DELIMITERS.OUT_DELIMITER);
                         for (k = 1; k <= Constants.SIZECONSTS.NLUSEVARS; k++) extnodeWriter.Write(luse_n[k, n] + Constants.DELIMITERS.OUT_DELIMITER);
                         for (k = 1; k <= Constants.SIZECONSTS.NPARKTYPES; k++) extnodeWriter.Write(parksp_n[k, n] + Constants.DELIMITERS.OUT_DELIMITER);
-                        for (k = 1; k <= Constants.SIZECONSTS.NPARKTYPES; k++) extnodeWriter.Write(parkpr_n[k, n] / (parksp_n[k, n] + 0.000000001) + Constants.DELIMITERS.OUT_DELIMITER); //use average price
+                        for (k = 1; k <= Constants.SIZECONSTS.NPARKTYPES; k++) extnodeWriter.Write(parkpr_n[k, n] + Constants.DELIMITERS.OUT_DELIMITER); //use average price
                         extnodeWriter.Write(nodes1_n[n] + Constants.DELIMITERS.OUT_DELIMITER);
                         extnodeWriter.Write(nodes3_n[n] + Constants.DELIMITERS.OUT_DELIMITER);
-                        extnodeWriter.Write(nodes4_n[n] + Constants.DELIMITERS.OUT_DELIMITER);
+                        extnodeWriter.Write(nodes4_n[n]);
                         extnodeWriter.Write("\n");
                     }
                     processLogger.log("Finished writing extended node file");
